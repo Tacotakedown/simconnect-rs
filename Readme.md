@@ -1,15 +1,15 @@
-![crates.io](https://img.shields.io/crates/v/simconnect)
 # SimConnect Bindings for Rust
 
-## Requirements
-- [CLang](https://clang.llvm.org/get_started.html) (See the [Rust Bindgen Documentation](https://rust-lang.github.io/rust-bindgen/requirements.html))
-- MSVC x64 Rust build (`x86_64-pc-windows-msvc`, see [The rustup book](https://rust-lang.github.io/rustup/installation/windows.html))
+## Updating the bindings
+why is this different from many of the other crates? 
+1. No Bindgen, this projects only dependency is cargo
+2. Static link (that may or may not work), this should remove the need for the SimConnect.dll to be present next to your compiled exe
 
 ## Using
 Add this to your `Cargo.toml`
 ```toml
 [dependencies]
-simconnect = "0.3.1"
+simconnect = {git="https://github.com/Tacotakedown/simconnect-rs" features=["static-link"]}
 ```
 
 ## Building
