@@ -9,7 +9,7 @@ why is this different from many of the other crates?
 Add this to your `Cargo.toml`
 ```toml
 [dependencies]
-simconnect = {git="https://github.com/Tacotakedown/simconnect-rs" features=["static-link"]}
+simconnect = {git="https://github.com/Tacotakedown/simconnect-rs" ,features=["static-link"]}
 ```
 
 ## Building

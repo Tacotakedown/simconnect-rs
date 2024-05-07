@@ -1,7 +1,13 @@
 use std::{env, path::PathBuf};
 
 fn main() {
-    #[cfg(feature = "static-link")]
+    #[cfg(all(feature = "static-link", feature = "debug"))]
+    {
+        println!("cargo:rustc-link-search=native=libsrc/lib/static");
+        println!("cargo:rustc-link-lib=static=SimConnect_debug");
+    }
+
+    #[cfg(all(feature = "static-link", not(feature = "debug")))]
     {
         println!("cargo:rustc-link-search=native=libsrc/lib/static");
         println!("cargo:rustc-link-lib=static=SimConnect");
