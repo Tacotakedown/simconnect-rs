@@ -1,8 +1,17 @@
 use std::{env, path::PathBuf};
 
 fn main() {
-    println!("cargo:rustc-link-search=libsrc/lib");
-    println!("cargo:rustc-link-lib=static=SimConnect");
+    #[cfg(feature = "static-link")]
+    {
+        println!("cargo:rustc-link-search=native=libsrc/lib/static");
+        println!("cargo:rustc-link-lib=static=SimConnect");
+    }
+
+    #[cfg(not(feature = "static-link"))]
+    {
+        println!("cargo:rustc-link-search=native=libsrc/lib/dyn");
+        println!("cargo:rustc-link-lib=dylib=SimConnect");
+    }
 
     // let bindings = bindgen::Builder::default()
     //     .header("libsrc/include/SimConnect.hpp")
