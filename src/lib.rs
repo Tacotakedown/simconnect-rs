@@ -157,6 +157,18 @@ pub const SIMCONNECT_RECV_ID_SIMCONNECT_RECV_ID_EVENT_MULTIPLAYER_SESSION_ENDED:
     SIMCONNECT_RECV_ID = 24;
 pub const SIMCONNECT_RECV_ID_SIMCONNECT_RECV_ID_EVENT_RACE_END: SIMCONNECT_RECV_ID = 25;
 pub const SIMCONNECT_RECV_ID_SIMCONNECT_RECV_ID_EVENT_RACE_LAP: SIMCONNECT_RECV_ID = 26;
+pub const SIMCONNECT_RECV_ID_SIMCONNECT_RECV_ID_EVENT_EX1: SIMCONNECT_RECV_ID = 27;
+pub const SIMCONNECT_RECV_ID_SIMCONNECT_RECV_ID_FACILITY_DATA: SIMCONNECT_RECV_ID = 28;
+pub const SIMCONNECT_RECV_ID_SIMCONNECT_RECV_ID_FACILITY_DATA_END: SIMCONNECT_RECV_ID = 29;
+pub const SIMCONNECT_RECV_ID_SIMCONNECT_RECV_ID_FACILITY_MINIMAL_LIST: SIMCONNECT_RECV_ID = 30;
+pub const SIMCONNECT_RECV_ID_SIMCONNECT_RECV_ID_JETWAY_DATA: SIMCONNECT_RECV_ID = 31;
+pub const SIMCONNECT_RECV_ID_SIMCONNECT_RECV_ID_CONTROLLERS_LIST: SIMCONNECT_RECV_ID = 32;
+pub const SIMCONNECT_RECV_ID_SIMCONNECT_RECV_ID_ACTION_CALLBACK: SIMCONNECT_RECV_ID = 33;
+pub const SIMCONNECT_RECV_ID_SIMCONNECT_RECV_ID_ENUMERATE_INPUT_EVENTS: SIMCONNECT_RECV_ID = 34;
+pub const SIMCONNECT_RECV_ID_SIMCONNECT_RECV_ID_GET_INPUT_EVENT: SIMCONNECT_RECV_ID = 35;
+pub const SIMCONNECT_RECV_ID_SIMCONNECT_RECV_ID_SUBSCRIBE_INPUT_EVENT: SIMCONNECT_RECV_ID = 36;
+pub const SIMCONNECT_RECV_ID_SIMCONNECT_RECV_ID_ENUMERATE_INPUT_EVENT_PARAMS: SIMCONNECT_RECV_ID =
+    37;
 pub type SIMCONNECT_RECV_ID = ::std::os::raw::c_int;
 pub const SIMCONNECT_DATATYPE_SIMCONNECT_DATATYPE_INVALID: SIMCONNECT_DATATYPE = 0;
 pub const SIMCONNECT_DATATYPE_SIMCONNECT_DATATYPE_INT32: SIMCONNECT_DATATYPE = 1;
@@ -222,6 +234,15 @@ pub const SIMCONNECT_EXCEPTION_SIMCONNECT_EXCEPTION_OBJECT_CONTAINER: SIMCONNECT
 pub const SIMCONNECT_EXCEPTION_SIMCONNECT_EXCEPTION_OBJECT_AI: SIMCONNECT_EXCEPTION = 35;
 pub const SIMCONNECT_EXCEPTION_SIMCONNECT_EXCEPTION_OBJECT_ATC: SIMCONNECT_EXCEPTION = 36;
 pub const SIMCONNECT_EXCEPTION_SIMCONNECT_EXCEPTION_OBJECT_SCHEDULE: SIMCONNECT_EXCEPTION = 37;
+pub const SIMCONNECT_EXCEPTION_SIMCONNECT_EXCEPTION_JETWAY_DATA: SIMCONNECT_EXCEPTION = 38;
+pub const SIMCONNECT_EXCEPTION_SIMCONNECT_EXCEPTION_ACTION_NOT_FOUND: SIMCONNECT_EXCEPTION = 39;
+pub const SIMCONNECT_EXCEPTION_SIMCONNECT_EXCEPTION_NOT_AN_ACTION: SIMCONNECT_EXCEPTION = 40;
+pub const SIMCONNECT_EXCEPTION_SIMCONNECT_EXCEPTION_INCORRECT_ACTION_PARAMS: SIMCONNECT_EXCEPTION =
+    41;
+pub const SIMCONNECT_EXCEPTION_SIMCONNECT_EXCEPTION_GET_INPUT_EVENT_FAILED: SIMCONNECT_EXCEPTION =
+    42;
+pub const SIMCONNECT_EXCEPTION_SIMCONNECT_EXCEPTION_SET_INPUT_EVENT_FAILED: SIMCONNECT_EXCEPTION =
+    43;
 pub type SIMCONNECT_EXCEPTION = ::std::os::raw::c_int;
 pub const SIMCONNECT_SIMOBJECT_TYPE_SIMCONNECT_SIMOBJECT_TYPE_USER: SIMCONNECT_SIMOBJECT_TYPE = 0;
 pub const SIMCONNECT_SIMOBJECT_TYPE_SIMCONNECT_SIMOBJECT_TYPE_ALL: SIMCONNECT_SIMOBJECT_TYPE = 1;
@@ -1624,7 +1645,8 @@ fn bindgen_test_layout_SIMCONNECT_RECV_FACILITIES_LIST() {
 #[repr(C, packed)]
 #[derive(Debug, Copy, Clone)]
 pub struct SIMCONNECT_DATA_FACILITY_AIRPORT {
-    pub Icao: [::std::os::raw::c_char; 9usize],
+    pub Ident: [::std::os::raw::c_char; 6usize],
+    pub Region: [::std::os::raw::c_char; 3usize],
     pub Latitude: f64,
     pub Longitude: f64,
     pub Altitude: f64,
@@ -1648,13 +1670,23 @@ fn bindgen_test_layout_SIMCONNECT_DATA_FACILITY_AIRPORT() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).Icao) as usize - ptr as usize },
+        unsafe { ::std::ptr::addr_of!((*ptr).Ident) as usize - ptr as usize },
         0usize,
         concat!(
             "Offset of field: ",
             stringify!(SIMCONNECT_DATA_FACILITY_AIRPORT),
             "::",
-            stringify!(Icao)
+            stringify!(Ident)
+        )
+    );
+    assert_eq!(
+        unsafe { ::std::ptr::addr_of!((*ptr).Region) as usize - ptr as usize },
+        6usize,
+        concat!(
+            "Offset of field: ",
+            stringify!(SIMCONNECT_DATA_FACILITY_AIRPORT),
+            "::",
+            stringify!(Region)
         )
     );
     assert_eq!(
@@ -1972,6 +2004,59 @@ fn bindgen_test_layout_SIMCONNECT_RECV_VOR_LIST() {
 }
 #[repr(C, packed)]
 #[derive(Debug, Copy, Clone)]
+pub struct SIMCONNECT_DATA_LATLONALT {
+    pub Latitude: f64,
+    pub Longitude: f64,
+    pub Altitude: f64,
+}
+#[test]
+fn bindgen_test_layout_SIMCONNECT_DATA_LATLONALT() {
+    const UNINIT: ::std::mem::MaybeUninit<SIMCONNECT_DATA_LATLONALT> =
+        ::std::mem::MaybeUninit::uninit();
+    let ptr = UNINIT.as_ptr();
+    assert_eq!(
+        ::std::mem::size_of::<SIMCONNECT_DATA_LATLONALT>(),
+        24usize,
+        concat!("Size of: ", stringify!(SIMCONNECT_DATA_LATLONALT))
+    );
+    assert_eq!(
+        ::std::mem::align_of::<SIMCONNECT_DATA_LATLONALT>(),
+        1usize,
+        concat!("Alignment of ", stringify!(SIMCONNECT_DATA_LATLONALT))
+    );
+    assert_eq!(
+        unsafe { ::std::ptr::addr_of!((*ptr).Latitude) as usize - ptr as usize },
+        0usize,
+        concat!(
+            "Offset of field: ",
+            stringify!(SIMCONNECT_DATA_LATLONALT),
+            "::",
+            stringify!(Latitude)
+        )
+    );
+    assert_eq!(
+        unsafe { ::std::ptr::addr_of!((*ptr).Longitude) as usize - ptr as usize },
+        8usize,
+        concat!(
+            "Offset of field: ",
+            stringify!(SIMCONNECT_DATA_LATLONALT),
+            "::",
+            stringify!(Longitude)
+        )
+    );
+    assert_eq!(
+        unsafe { ::std::ptr::addr_of!((*ptr).Altitude) as usize - ptr as usize },
+        16usize,
+        concat!(
+            "Offset of field: ",
+            stringify!(SIMCONNECT_DATA_LATLONALT),
+            "::",
+            stringify!(Altitude)
+        )
+    );
+}
+#[repr(C, packed)]
+#[derive(Debug, Copy, Clone)]
 pub struct SIMCONNECT_DATA_INITPOSITION {
     pub Latitude: f64,
     pub Longitude: f64,
@@ -2203,59 +2288,6 @@ fn bindgen_test_layout_SIMCONNECT_DATA_WAYPOINT() {
             stringify!(SIMCONNECT_DATA_WAYPOINT),
             "::",
             stringify!(percentThrottle)
-        )
-    );
-}
-#[repr(C, packed)]
-#[derive(Debug, Copy, Clone)]
-pub struct SIMCONNECT_DATA_LATLONALT {
-    pub Latitude: f64,
-    pub Longitude: f64,
-    pub Altitude: f64,
-}
-#[test]
-fn bindgen_test_layout_SIMCONNECT_DATA_LATLONALT() {
-    const UNINIT: ::std::mem::MaybeUninit<SIMCONNECT_DATA_LATLONALT> =
-        ::std::mem::MaybeUninit::uninit();
-    let ptr = UNINIT.as_ptr();
-    assert_eq!(
-        ::std::mem::size_of::<SIMCONNECT_DATA_LATLONALT>(),
-        24usize,
-        concat!("Size of: ", stringify!(SIMCONNECT_DATA_LATLONALT))
-    );
-    assert_eq!(
-        ::std::mem::align_of::<SIMCONNECT_DATA_LATLONALT>(),
-        1usize,
-        concat!("Alignment of ", stringify!(SIMCONNECT_DATA_LATLONALT))
-    );
-    assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).Latitude) as usize - ptr as usize },
-        0usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(SIMCONNECT_DATA_LATLONALT),
-            "::",
-            stringify!(Latitude)
-        )
-    );
-    assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).Longitude) as usize - ptr as usize },
-        8usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(SIMCONNECT_DATA_LATLONALT),
-            "::",
-            stringify!(Longitude)
-        )
-    );
-    assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).Altitude) as usize - ptr as usize },
-        16usize,
-        concat!(
-            "Offset of field: ",
-            stringify!(SIMCONNECT_DATA_LATLONALT),
-            "::",
-            stringify!(Altitude)
         )
     );
 }
