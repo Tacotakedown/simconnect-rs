@@ -1,7 +1,6 @@
 # SimConnect Bindings for Rust
 
 ## Why this crate
-why is this different from many of the other crates? 
 1. No Bindgen, this projects only dependency is cargo
 2. Static linking feature - no more SimConnect.dll needed
 
