@@ -1,9 +1,9 @@
 # SimConnect Bindings for Rust
 
-## Updating the bindings
+## Why this crate
 why is this different from many of the other crates? 
 1. No Bindgen, this projects only dependency is cargo
-2. Static link (that may or may not work), this should remove the need for the SimConnect.dll to be present next to your compiled exe
+2. Static linking feature - no more SimConnect.dll needed
 
 ## Using
 Add this to your `Cargo.toml`
@@ -11,9 +11,10 @@ Add this to your `Cargo.toml`
 [dependencies]
 simconnect = {git="https://github.com/Tacotakedown/simconnect-rs" ,features=["static-link"]}
 ```
+if you prefer dynamic linking omit the feature and ensure you have `SimConnect.dll` next to your exe
 
 ## Building
-*The SimConnect binaries are included within this repository, but they may not be up-to-date.*
+*The latest SimConnect binaries are included within this repository.*
 
 1. run `cargo build`
 2. Add `use simconnect` at the top of your file
@@ -32,5 +33,3 @@ cargo run --example aircraft_updates_on_change
 
 *You must have SimConnect.dll in the same directory as the compiled exe for it to run (e.g. in )*
 
-### Remarks
-I have not tested every single function from the api. If you find an error, feel free to make an issue or a pull request.
