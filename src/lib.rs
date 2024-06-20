@@ -3824,8 +3824,8 @@ impl SimConnector {
 /// //////////////////////////////////////////////////////////////////////
 
 pub struct SimVarRegistration<'a> {
-    name: &'a str,
-    unit: &'a str,
+    pub name: &'a str,
+    pub unit: &'a str,
 }
 
 pub fn register_simvars(
@@ -3846,15 +3846,10 @@ pub fn register_simvars(
 }
 
 pub trait SimVarStruct: Sized {
-    fn from_raw(data: *const u8) -> Self;
+    fn from_raw(data: u32) -> Self;
 }
 
-pub struct SimObjectData {
-    pub dwDefineID: u32,
-    pub dwData: *const u8,
-}
-
-pub fn get_simvar_data<T: SimVarStruct>(data: &SimObjectData) -> T {
+pub fn get_simvar_data<T: SimVarStruct>(data: &SIMCONNECT_RECV_SIMOBJECT_DATA) -> T {
     T::from_raw(data.dwData)
 }
 

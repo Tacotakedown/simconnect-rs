@@ -11,7 +11,7 @@ pub fn simvar_struct_derive(input: TokenStream) -> TokenStream {
 
     let expanded = quote! {
         impl SimVarStruct for #name {
-            fn from_raw(data: *const u8) -> Self {
+            fn from_raw(data: u32) -> Self {
                 unsafe { std::ptr::read_unaligned(data as *const #name) }
             }
         }
