@@ -3788,6 +3788,62 @@ impl SimConnector {
     }
 }
 
+// batch register vars
+////////////////////////////////////////////////////////
+/// struct LonLatSimVarStruct {
+///     lat:f64,
+///     lon:f64,
+/// }
+///
+///
+// enum RegistrationEnum {
+//  LAT_LON,
+//}
+
+// let mut connector = SimConnector::new();
+// connector.connect("Batch simvars");
+//  let simvars = vec![SimVarRegistration{name:"PLANE LATTITUDE",unit:"Degrees", }, SimVarRegistration{name:"PLANE LONGITIUDE", unit:"Degrees"}]; // note the order we are defining them in, its the same as the struct
+// register_simvars(&mut connector, simvars, RegistrationEnum::LAT_LON);
+// connector.request_data_on_sim_object(0,0,0,simconnect::SIMCONNECT_PERIOD_SIMCONNECT_SIM_FRAME,0,0,0,0);
+
+// then in your appliciton loop simply match the connection method and read from memory
+///
+/// match connector.get_next_message() {
+/// Ok(DispatchResult::SimObjectData(data)) => unsafe {
+///     if data.dwDefineID == RegistrationEnum::LAT_LON {
+///         let sim_data_ptr = std::ptr::addrof!(data.dwData) as *const LonLatSimVarStruct;
+///         let sim_data_value = std::ptr::read::unaligned(sim_data_ptr);
+///         // simvars are now deserialized into the struct format
+///     }
+/// }
+///
+/// }
+/// i will make an abstraction for this next so that we dont have any unsafe blocks outside of the bindings
+///
+/// //////////////////////////////////////////////////////////////////////
+
+pub struct SimVarRegistration<'a> {
+    name: &'a str,
+    unit: &'a str,
+}
+
+pub fn register_simvars(
+    connector: &mut SimConnector,
+    vars: Vec<SimVarRegistration>,
+    group_id: u32,
+) {
+    for var in vars {
+        connector.add_data_definition(
+            group_id,
+            var.name,
+            var.unit,
+            SIMCONNECT_DATATYPE_SIMCONNECT_DATATYPE_FLOAT64,
+            u32::MAX,
+            0.0,
+        );
+    }
+}
+
 impl Drop for SimConnector {
     fn drop(&mut self) {
         if !self.sim_connect_handle.is_null() {
