@@ -2,6 +2,8 @@
 #![allow(non_camel_case_types)]
 #![allow(non_snake_case)]
 
+use simvar_derive::SimVarStruct;
+
 pub type DWORD = ::std::os::raw::c_ulong;
 pub type BOOL = ::std::os::raw::c_int;
 pub type BYTE = ::std::os::raw::c_uchar;
@@ -3810,9 +3812,8 @@ impl SimConnector {
 ///
 /// match connector.get_next_message() {
 /// Ok(DispatchResult::SimObjectData(data)) => unsafe {
-///     if data.dwDefineID == RegistrationEnum::LAT_LON {
-///         let sim_data_ptr = std::ptr::addrof!(data.dwData) as *const LonLatSimVarStruct;
-///         let sim_data_value = std::ptr::read::unaligned(sim_data_ptr);
+///     if data.dwDefineID == RegistrationEnum::LAT_LON as u32 {
+///        let sim_data_value: LonLatSimVarStruct = get_simvar_data(&data);
 ///         // simvars are now deserialized into the struct format
 ///     }
 /// }
@@ -3842,6 +3843,19 @@ pub fn register_simvars(
             0.0,
         );
     }
+}
+
+pub trait SimVarStruct: Sized {
+    fn from_raw(data: *const u8) -> Self;
+}
+
+pub struct SimObjectData {
+    pub dwDefineID: u32,
+    pub dwData: *const u8,
+}
+
+pub fn get_simvar_data<T: SimVarStruct>(data: &SimObjectData) -> T {
+    T::from_raw(data.dwData)
 }
 
 impl Drop for SimConnector {
